@@ -20,6 +20,14 @@ module Quickbase
                 self.selector = []
             end
 
+            def first
+                to_a.first
+            end
+
+            def each
+                to_a.each {|record| yield record }
+            end
+
             def all
                 selector.clear
                 selection

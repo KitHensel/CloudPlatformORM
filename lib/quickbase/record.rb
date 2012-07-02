@@ -55,6 +55,21 @@ module Quickbase
         value_for_environment @fields[name]
       end
 
+      def field_name(id)
+        fields_for_environment.each {|key, value| 
+          return key if value == id
+        }
+        nil
+      end
+
+      def fields_for_environment
+        @fields.inject({}) do |memo, name_value|
+          name, value = name_value
+          memo[name] = value_for_environment(value)
+          memo
+        end
+      end
+
       private
 
       def value_for_environment(ids)
@@ -82,6 +97,14 @@ module Quickbase
    
     def fields
       self.class.fields
+    end
+
+    def fields_for_environment
+      self.class.fields_for_environment
+    end
+
+    def field_name(id)
+      self.class.field_name(id)
     end
 
     def field_id(name)

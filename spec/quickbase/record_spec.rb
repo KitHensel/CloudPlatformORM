@@ -12,6 +12,39 @@ describe Quickbase::Record do
     @model = BasicTestModelRecord.clone.new
   end
 
+  describe "fields for environment" do
+    before do
+      @model.class.send(:field, :name, {9 => 10})
+      @model.class.send(:field, :test, {10 => 11})
+    end
+
+    it "should return the correct name -> value map for the environment" do
+      @model.send(:fields_for_environment).should == {:name => 9, :test => 10}
+    end
+
+    it "should return the correct name -> value map for the production environment" do
+      @model.connection.stub(:quickbase_environment) { ActiveSupport::StringInquirer.new("production") }
+      @model.send(:fields_for_environment).should == {:name => 10, :test => 11}
+    end
+  end
+
+  describe "looking up a field name from its id" do
+    before do
+      @model.class.send(:field, :name, {9 => 10})
+      @model.class.send(:field, :test, {10 => 11})
+    end
+
+    it "should return 'test' for field id 10 in development" do
+      @model.send(:field_name, 10).should == :test
+    end
+
+    it "should return 'name' for field id 10 in production" do
+      @model.connection.stub(:quickbase_environment) { ActiveSupport::StringInquirer.new("production") }
+      @model.send(:field_name, 10).should == :name
+    end
+  end
+
+
   describe "when included in a model" do
     it "should have a field method for adding attribute metadata" do
       @model.class.methods.should include :field

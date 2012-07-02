@@ -9,10 +9,16 @@ module Quickbase
         private
 
         def process_query_results(results)
-            results = results.select { |result| result.is_a? REXML::Element }
-            object_results = results.map { |result|
-                p result
-            }
+            records = results.select { |result| result.is_a? REXML::Element }
+            records.map do |record|
+              attributes = {}
+              fields = record.select {|result| result.is_a? REXML::Element }
+              fields.each do |field|
+                id = field.attributes['id']
+                attributes[id] = field.text 
+              end
+              self.new(attributes)
+            end
         end
     end
 end

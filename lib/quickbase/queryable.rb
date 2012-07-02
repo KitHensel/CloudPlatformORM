@@ -14,7 +14,7 @@ module Quickbase
               attributes = {}
               fields = record.select {|result| result.is_a? REXML::Element }
               fields.each do |field|
-                id = field.attributes['id']
+                id = field.attributes['id'].to_i
                 attributes[field_name(id)] = field.text 
               end
               self.new(attributes)

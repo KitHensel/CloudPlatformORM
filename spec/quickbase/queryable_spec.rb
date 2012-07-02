@@ -8,8 +8,7 @@ end
 
 describe Quickbase::Queryable do
     before do
-        @config = {:test => {"default" => {"username" => "test", "password" => "password"}}}
-        Quickbase::Connection.any_instance.stub(:read_config) { @config }
+        Quickbase.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
     end
 
     describe :query do

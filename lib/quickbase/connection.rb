@@ -7,7 +7,7 @@ module Quickbase
     end
     
     def connect
-      @config = configure
+      @config = Quickbase.connections[connection_name]
       @client = QuickBase::Client.init(
           "username" => @config["username"], 
           "password" => @config["password"], 
@@ -20,15 +20,6 @@ module Quickbase
     def quickbase_environment
       # stub this out for rspecs
       Rails.env
-    end
-
-    def configure
-      config = HashWithIndifferentAccess.new read_config
-      config[quickbase_environment][connection_name]
-    end
-
-    def read_config
-      YAML.load_file(File.join(Rails.root, "config", "quickbase.yml"))
     end
     
     def method_missing(method, *args, &block)

@@ -9,9 +9,7 @@ end
 
 describe Quickbase::Storable do
   before do
-    @client_params = {"username" => "test", "password" => "password"}
-    @config = {:test => {"default" => @client_params}}
-    Quickbase::Connection.any_instance.stub(:read_config) { @config }
+    Quickbase.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
 
     @name = "model_name"
     @date = Time.now

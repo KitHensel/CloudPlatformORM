@@ -3,9 +3,8 @@ require 'spec_helper'
 describe Quickbase::Connection do
   before do
     @connection_name = 'test_connection'
-    @client_params = {"client" => {"username" => "test", "password" => "password"}}
-    @config = {:test => {@connection_name => @client_params}}
-    Quickbase::Connection.any_instance.stub(:read_config) { @config }
+    @client_params = {"username" => "test", "password" => "password"}
+    Quickbase.stub(:connections) { {"test_connection" => @client_params} }
     @connection = Quickbase::Connection.new(@connection_name)
     @connection.connect
   end

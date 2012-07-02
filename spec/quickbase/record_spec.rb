@@ -28,6 +28,26 @@ describe Quickbase::Record do
       @model.class.send(:field, :name, 9)
     end
 
+    describe "table id" do
+      describe "in the correct format" do
+        before do
+          @model.class.send(:database, {"abcd" => "efgh"})
+        end
+
+        it "should return abcd for non production" do
+          @model.database_id.should == "abcd"
+        end
+
+        it "should return efgh for production" do
+        end
+
+      end
+
+      it "should raise an error if the table id is not in the dev => prod format" do
+        lambda { @model.class.send(:database, "abcd") }.should raise_error
+      end
+    end
+
     describe "numeric field id" do
       it "should return the supplied number" do
         @model.field_id(:name).should == 9

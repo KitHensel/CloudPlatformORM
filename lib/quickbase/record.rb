@@ -2,8 +2,9 @@ module Quickbase
   module Record
     def self.included(base)
       base.extend(ClassMethods)
-      base.extend(Quickbase::Storage)
-      base.extend(Quickbase::Storage::ClassMethods)
+      base.extend(Quickbase::Storable)
+      base.extend(Quickbase::Queryable)
+      base.extend(Quickbase::Selectable)
     end
     
     module ClassMethods
@@ -17,6 +18,14 @@ module Quickbase
 
       def connection_name
         @connection_name || "default"
+      end
+
+      def database(id)
+        if (id.kind_of?(Hash))
+          @database = id
+        else
+          raise "Invalid database id format. Use the syntax   database 'DBID_dev' => 'DBID_prod'"
+        end
       end
 
       def field(name, field_id)
@@ -34,8 +43,17 @@ module Quickbase
         end
       end
       
+      def database_id
+        value_for_environment @database
+      end
+
       def field_id(name)
-        ids = @fields[name]
+        value_for_environment @fields[name]
+      end
+
+      private
+
+      def value_for_environment(ids)
         if (ids.kind_of?(Fixnum))
           ids
         elsif (ids.kind_of?(Hash))
@@ -52,6 +70,10 @@ module Quickbase
       attributes.each do |key, value|
         self.send("#{key}=", value)
       end
+    end
+
+    def database_id
+      self.class.database_id
     end
    
     def fields

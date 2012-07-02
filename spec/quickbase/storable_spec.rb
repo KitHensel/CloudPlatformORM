@@ -7,7 +7,7 @@ class BasicTestModelStorage
   field :date, 3
 end
 
-describe Quickbase::Storage do
+describe Quickbase::Storable do
   before do
     @client_params = {"username" => "test", "password" => "password"}
     @config = {:test => {"default" => @client_params}}
@@ -31,12 +31,12 @@ describe Quickbase::Storage do
   end
 
   describe "save_all" do
-    it "should raise an exception if table_id is not specified" do
+    it "should raise an exception if database_id is not specified" do
       lambda { BasicTestModel.save_all([]) }.should raise_error
     end
     
-    it "should not raise an exception if table_id is specified" do
-      BasicTestModelStorage.table_id = "1ab"
+    it "should not raise an exception if database_id is specified" do
+      BasicTestModelStorage.send(:database, {"1ab" => "1ab"})
       lambda { BasicTestModelStorage.save_all([@model]) }.should_not raise_error
     end
   end

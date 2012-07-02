@@ -1,3 +1,5 @@
 require 'quickbase/connection'
-require 'quickbase/storage'
+require 'quickbase/storable'
+require 'quickbase/queryable'
+require 'quickbase/selectable'
 require 'quickbase/record'

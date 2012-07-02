@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quickbasemapper (0.0.1)
+    quickbasemapper (0.0.2)
       ipp_quickbase_devkit
       ipp_quickbase_devkit
 

@@ -8,16 +8,16 @@ module Quickbase
     end
     
     module ClassMethods
-      def connection
-        @connection ||= begin
-          con = Quickbase::Connection.new(connection_name)
-          con.connect
-          con
+      def connection(name=nil)
+        if (name)
+          @connection_name = name
+        else
+          @connection ||= begin
+            con = Quickbase::Connection.new(connection_name)
+            con.connect
+            con
+          end
         end
-      end
-
-      def connection_name
-        @connection_name || "default"
       end
 
       def database(id)
@@ -32,6 +32,10 @@ module Quickbase
         @fields ||= {}
         @fields[name.to_sym] = field_id
         self.send(:attr_accessor, name)
+      end
+
+      def connection_name
+        @connection_name || "default"
       end
 
       def fields

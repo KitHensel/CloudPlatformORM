@@ -6,6 +6,10 @@ module Quickbase
             process_query_results(results)
         end
 
+        def count
+            connection.getNumRecords(database_id)
+        end
+
         private
 
         def process_query_results(results)

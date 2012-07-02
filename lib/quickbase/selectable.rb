@@ -1,8 +1,16 @@
 module Quickbase
     module Selectable
+        def find(id)
+            Selector.new(self).where(:id => id).first
+        end
+
         def where(criterion)
             Selector.new(self).where(criterion)
         end 
+
+        def all
+            Selector.new(self).all
+        end
 
         class Selector
             attr_accessor :model, :selector
@@ -10,6 +18,11 @@ module Quickbase
             def initialize(model)
                 self.model = model
                 self.selector = []
+            end
+
+            def all
+                selector.clear
+                selection
             end
 
             def where(criterion)
@@ -30,8 +43,8 @@ module Quickbase
 
             private
 
-            def selection(criterion, condition='AND')
-                self.selector << condition if selector.size > 0
+            def selection(criterion=[], condition='AND')
+                self.selector << condition if (selector.size > 0) && (criterion.size > 0)
                 self.selector += criterion.inject([]) {|memo, name_value|
                     field_name, value = name_value
                     memo << "AND" if memo.size > 0

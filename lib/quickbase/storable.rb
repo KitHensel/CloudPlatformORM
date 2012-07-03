@@ -26,7 +26,12 @@ module Quickbase
         #   store_chunk(header, chunk)
         # end
         models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
-          csv_chunk = chunk.map {|model| build_csv_row(model, field_names) }
+          csv_chunk = CSV.generate do |csv|
+            chunk.each do |object| 
+              csv << build_csv_row(object, field_names) 
+            end
+          end
+
           store_chunk(header, csv_chunk, chunk)
         end
 
@@ -34,15 +39,13 @@ module Quickbase
 
       private
 
-      def store_chunk(header, chunk, objects)
+      def store_chunk(header, csv, objects)
         3.attempts do
-          n, m, o, rids, p = connection.client.importFromCSV(database_id, chunk, header)
-          if rids.size == chunk.size
+          n, m, o, rids, p = connection.client.importFromCSV(database_id, csv, header)
+          if rids.size == objects.size
             objects.zip(rids).each {|object, id| object.id = id }
           else
-            p rids
-            p chunk
-            raise "record ids returned #{rids.size} does not match records saved #{chunk.size}" 
+            raise "record ids returned #{rids.size} does not match records saved #{objects.size}" 
           end
         end
       end

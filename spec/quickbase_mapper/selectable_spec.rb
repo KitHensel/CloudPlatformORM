@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 class BasicTestModelSelectable
-  include Quickbase::Record
+  include QuickbaseMapper::Record
 
   field :name, 1 => 2
   field :date, 3
 end
 
-describe Quickbase::Selectable do
+describe QuickbaseMapper::Selectable do
     before do
-        Quickbase.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
+        QuickbaseMapper.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
     end
 
     describe :build_query do

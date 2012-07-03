@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Quickbase::Connection do
+describe QuickbaseMapper::Connection do
   before do
     @connection_name = 'test_connection'
     @client_params = {"username" => "test", "password" => "password"}
-    Quickbase.stub(:connections) { {"test_connection" => @client_params} }
-    @connection = Quickbase::Connection.new(@connection_name)
+    QuickbaseMapper.stub(:connections) { {"test_connection" => @client_params} }
+    @connection = QuickbaseMapper::Connection.new(@connection_name)
     @connection.connect
   end
   

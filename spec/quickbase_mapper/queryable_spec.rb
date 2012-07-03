@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 class BasicTestModelQueryable
-  include Quickbase::Record
+  include QuickbaseMapper::Record
 
   field :name, 1 => 2
 end
 
-describe Quickbase::Queryable do
+describe QuickbaseMapper::Queryable do
     before do
-        Quickbase.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
+        QuickbaseMapper.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
     end
 
     describe :query do

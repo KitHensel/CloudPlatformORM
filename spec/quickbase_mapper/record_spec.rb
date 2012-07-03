@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 class BasicTestModelRecord
-  include Quickbase::Record
+  include QuickbaseMapper::Record
 end
 
-describe Quickbase::Record do
+describe QuickbaseMapper::Record do
   before do
-    Quickbase.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
+    QuickbaseMapper.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
     @model = BasicTestModelRecord.clone.new
   end
 
@@ -66,7 +66,7 @@ describe Quickbase::Record do
     end
 
     it "should have a quickbase connection" do
-      @model.connection.should be_kind_of Quickbase::Connection
+      @model.connection.should be_kind_of QuickbaseMapper::Connection
       @model.connection.connection_name.should == "default"
     end
   end

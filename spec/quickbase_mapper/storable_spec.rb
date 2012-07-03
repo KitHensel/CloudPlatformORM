@@ -1,22 +1,23 @@
 require 'spec_helper'
 
 class BasicTestModelStorage
-  include Quickbase::Record
+  include QuickbaseMapper::Record
 
   field :id, 3
   field :name, 1 => 2
   field :date, 4
 end
 
-describe Quickbase::Storable do
+describe QuickbaseMapper::Storable do
   before do
-    Quickbase.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
+    QuickbaseMapper.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
 
     @name = "model_name"
     @date = Time.now
     @model = BasicTestModelStorage.new(:name => @name, :date => @date)
 
-    BasicTestModelStorage.connection.client.stubs(:importFromCSV)
+    BasicTestModelStorage.connection.client.stub(:importFromCSV)
+    BasicTestModelStorage.connection.client.stub(:doQuery)
   end
 
   describe "as csv" do
@@ -37,6 +38,7 @@ describe Quickbase::Storable do
     it "should not raise an exception if database_id is specified" do
       BasicTestModelStorage.send(:database, {"1ab" => "1ab"})
       BasicTestModelStorage.connection.client.stub(:importFromCSV) { [0,0,0,[1],0] }
+      BasicTestModelStorage.stub(:parse_rid_xml) { [1] }
 
       lambda { BasicTestModelStorage.save_all([@model]) }.should_not raise_error
     end

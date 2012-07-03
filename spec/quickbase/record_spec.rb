@@ -10,6 +10,23 @@ describe Quickbase::Record do
     @model = BasicTestModelRecord.clone.new
   end
 
+  describe "attributes" do
+    before do
+      @model.class.send(:field, :name, {9 => 10})
+      @model.class.send(:field, :location, {12 => 13})
+      @model.name = "my name"
+      @model.location = "denver"
+    end
+
+    it "should return the attributes hashed by name" do
+      @model.attributes.should == {:name => "my name", :location => "denver"}
+    end
+
+    it "should return attributes hashed by id for the environment" do
+      @model.attributes_by_id.should == {9 => "my name", 12 => "denver"}
+    end
+  end
+
   describe "fields for environment" do
     before do
       @model.class.send(:field, :name, {9 => 10})

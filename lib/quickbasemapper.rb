@@ -1,3 +1,4 @@
+require 'QuickBaseClient'
 require 'quickbase'
 require 'quickbase/connection'
 require 'quickbase/storable'

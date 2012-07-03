@@ -1,15 +1,17 @@
 module Quickbase
     module Selectable
-        def find(id)
-            Selector.new(self).where(:id => id).first
-        end
+        module ClassMethods
+            def find(id)
+                Selector.new(self).where(:id => id).first
+            end
 
-        def where(criterion)
-            Selector.new(self).where(criterion)
-        end 
+            def where(criterion)
+                Selector.new(self).where(criterion)
+            end 
 
-        def all
-            Selector.new(self).all
+            def all
+                Selector.new(self).all
+            end
         end
 
         class Selector

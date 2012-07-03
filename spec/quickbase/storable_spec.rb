@@ -3,8 +3,9 @@ require 'spec_helper'
 class BasicTestModelStorage
   include Quickbase::Record
 
+  field :id, 3
   field :name, 1 => 2
-  field :date, 3
+  field :date, 4
 end
 
 describe Quickbase::Storable do
@@ -20,7 +21,7 @@ describe Quickbase::Storable do
 
   describe "as csv" do
     it "should produce a period separated CSV header" do
-      @model.class.send(:build_csv_header, [:name, :date]).should == "1.3"
+      @model.class.send(:build_csv_header, [:name, :date]).should == "1.4"
     end
 
     it "should produce a csv row from a record" do
@@ -35,6 +36,8 @@ describe Quickbase::Storable do
     
     it "should not raise an exception if database_id is specified" do
       BasicTestModelStorage.send(:database, {"1ab" => "1ab"})
+      BasicTestModelStorage.connection.client.stub(:importFromCSV) { [0,0,0,[1],0] }
+
       lambda { BasicTestModelStorage.save_all([@model]) }.should_not raise_error
     end
   end

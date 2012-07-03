@@ -2,9 +2,13 @@ module Quickbase
   module Record
     def self.included(base)
       base.extend(ClassMethods)
-      base.extend(Quickbase::Storable)
-      base.extend(Quickbase::Queryable)
-      base.extend(Quickbase::Selectable)
+      base.extend(Quickbase::Storable::ClassMethods)
+      base.extend(Quickbase::Queryable::ClassMethods)
+      base.extend(Quickbase::Selectable::ClassMethods)
+
+      base.instance_eval do
+        include Quickbase::Storable
+      end
     end
     
     module ClassMethods
@@ -88,6 +92,21 @@ module Quickbase
     def initialize(attributes={})
       attributes.each do |key, value|
         self.send("#{key}=", value)
+      end
+    end
+
+    def attributes
+      fields.keys.inject({}) do |memo, field_name|
+        memo[field_name] = self.send(field_name)
+        memo
+      end
+    end
+
+    def attributes_by_id
+      fields.inject({}) do |memo, name_id|
+        name, id = name_id
+        memo[id] = self.send(name)
+        memo
       end
     end
 

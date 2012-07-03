@@ -5,7 +5,7 @@ module Quickbase
     attr_accessor :persisted
 
     def save!
-      save_all([self])
+      self.class.save_all([self])
     end
 
     module ClassMethods

@@ -1,3 +1,5 @@
+require 'csv'
+
 module Quickbase
   module Storable
     MAX_RECORDS_PER_WRITE = 10000
@@ -21,20 +23,15 @@ module Quickbase
         
         field_names ||= fields.keys
         header = build_csv_header(field_names)
-        # rows = models.map {|model| build_csv_row(model, field_names) }
-        # rows.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
-        #   store_chunk(header, chunk)
-        # end
+
         models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
           csv_chunk = CSV.generate do |csv|
             chunk.each do |object| 
               csv << build_csv_row(object, field_names) 
             end
           end
-
           store_chunk(header, csv_chunk, chunk)
         end
-
       end
 
       private
@@ -42,12 +39,21 @@ module Quickbase
       def store_chunk(header, csv, objects)
         3.attempts do
           n, m, o, rids, p = connection.client.importFromCSV(database_id, csv, header)
+          rids = parse_rid_xml rids
           if rids.size == objects.size
             objects.zip(rids).each {|object, id| object.id = id }
           else
             raise "record ids returned #{rids.size} does not match records saved #{objects.size}" 
           end
         end
+      end
+
+      def parse_rid_xml(xml)
+        xml.select {|result| 
+          result.is_a? REXML::Element
+        }.map {|rid_xml|
+          rid_xml.text
+        }
       end
       
       def build_csv_header(field_names)

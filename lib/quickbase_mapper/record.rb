@@ -34,7 +34,12 @@ module QuickbaseMapper::Record
     def field(name, field_id)
       @fields ||= {}
       @fields[name.to_sym] = field_id
-      self.send(:attr_accessor, name)
+      self.send(:attr_reader, name)
+      setter = Proc.new {|value| 
+        value = value.to_i if value.to_i.to_s == value
+        instance_variable_set("@#{name}".to_sym, value) 
+      }
+      define_method("#{name}=", setter)
     end
 
     def connection_name

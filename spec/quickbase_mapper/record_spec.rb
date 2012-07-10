@@ -33,6 +33,11 @@ describe QuickbaseMapper::Record do
       @model.class.send(:field, :test, {10 => 11})
     end
 
+    it "should create a setter and getter" do
+      @model.name = "my name"
+      @model.name.should == "my name"
+    end
+
     it "should return the correct name -> value map for the environment" do
       @model.send(:fields_for_environment).should == {:name => 9, :test => 10}
     end
@@ -68,6 +73,27 @@ describe QuickbaseMapper::Record do
     it "should have a quickbase connection" do
       @model.connection.should be_kind_of QuickbaseMapper::Connection
       @model.connection.connection_name.should == "default"
+    end
+  end
+
+  describe "automatic typecasting" do
+    before do
+      @model.class.send(:field, :number_field, 9)
+    end
+
+    it "should convert numeric strings to integers" do
+      @model.number_field = "1"
+      @model.number_field.should == 1
+    end
+
+    it "should not touch string values" do
+      @model.number_field = "abc"
+      @model.number_field.should == "abc"
+    end
+
+    it "should not touch nil values" do
+      @model.number_field = nil
+      @model.number_field.should be_nil
     end
   end
 

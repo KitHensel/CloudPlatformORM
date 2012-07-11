@@ -25,7 +25,9 @@ module QuickbaseMapper::Storable
 
       models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
         csv_chunk = CSV.generate do |csv|
+          p chunk
           chunk.each do |object| 
+            p object
             csv << build_csv_row(object, field_names) 
           end
         end

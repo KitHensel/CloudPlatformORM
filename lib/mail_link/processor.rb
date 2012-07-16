@@ -32,7 +32,7 @@ module MailLink
       def run
         mailbox = Mailbox.new(username, password)
         mailbox.each_unread_message do |message|
-          self.new.process(message)
+          self.new(message).process
         end
       end
     end

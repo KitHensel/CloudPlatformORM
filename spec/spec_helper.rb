@@ -27,12 +27,6 @@ class String
     end
 end
 
-class Fixnum
-    def attempts
-        yield
-    end
-end
-
 RSpec.configure do |config|
   # some (optional) config here
 end

@@ -28,4 +28,14 @@ describe MailLink::Processor do
       @processor.message.should == @message
     end
   end
+
+  describe "descendants" do
+    it "should include the test processor in its descendants" do
+      @processor.class.descendants.should include @processor.class
+    end
+
+    it "should not include String in its descendants" do
+      @processor.class.descendants.should_not include String
+    end
+  end
 end

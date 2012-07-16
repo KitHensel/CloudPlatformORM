@@ -16,7 +16,7 @@ module MailLink
 
     module ClassMethods
       def descendants
-        ObjectSpace.each_object(Class).select { |klass| klass < self }
+        ObjectSpace.each_object(Class).select { |klass| klass < MailLink::Processor }
       end
 
       def username(email=nil)

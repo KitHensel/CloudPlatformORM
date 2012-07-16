@@ -15,6 +15,10 @@ module MailLink
     end
 
     module ClassMethods
+      def descendants
+        ObjectSpace.each_object(Class).select { |klass| klass < self }
+      end
+
       def username(email=nil)
         @email = email if email
         @email
@@ -31,7 +35,6 @@ module MailLink
           self.new.process(message)
         end
       end
-
     end
   end
 end

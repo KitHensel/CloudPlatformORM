@@ -81,6 +81,10 @@ describe QuickbaseMapper::Record do
       @model.class.send(:field, :number_field, 9)
     end
 
+    it "should remain the provided type if to_i does not exist" do
+      lambda { @model.number_field = Date.today }.should_not raise_error
+    end
+
     it "should convert numeric strings to integers" do
       @model.number_field = "1"
       @model.number_field.should == 1

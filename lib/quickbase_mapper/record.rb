@@ -36,7 +36,7 @@ module QuickbaseMapper::Record
       @fields[name.to_sym] = field_id
       self.send(:attr_reader, name)
       setter = Proc.new {|value| 
-        value = value.to_i if value.to_i.to_s == value
+        value = value.to_i if value.methods.include?(:to_i) && (value.to_i.to_s == value)
         instance_variable_set("@#{name}".to_sym, value) 
       }
       define_method("#{name}=", setter)

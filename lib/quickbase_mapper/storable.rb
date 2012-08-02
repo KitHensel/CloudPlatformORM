@@ -61,7 +61,16 @@ module QuickbaseMapper::Storable
 
     def build_csv_row(model, field_names)
       field_names.map do |field_name|
-        model.send(field_name)
+        value = model.send(field_name)
+        format_value_for_storage value
+      end
+    end
+
+    def format_value_for_storage(value)
+      if ([Date,Time].include? value.class)
+        (value.to_f * 1000).to_i.to_s
+      else
+        value
       end
     end
   end

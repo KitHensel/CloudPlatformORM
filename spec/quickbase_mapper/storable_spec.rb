@@ -26,7 +26,7 @@ describe QuickbaseMapper::Storable do
     end
 
     it "should produce a csv row from a record" do
-      @model.class.send(:build_csv_row, @model, [:name, :date]).should == [@name, @date]
+      @model.class.send(:build_csv_row, @model, [:name]).should == [@name]
     end
   end
 
@@ -43,4 +43,12 @@ describe QuickbaseMapper::Storable do
       lambda { BasicTestModelStorage.save_all([@model]) }.should_not raise_error
     end
   end
+
+  describe :format_value_for_stoage do
+    it "should turn dates into milliseconds since epoch" do
+      date_as_qb = (@date.to_f * 1000).to_i.to_s
+      @model.class.send(:build_csv_row, @model, [:name, :date]).should == [@name, date_as_qb]
+    end
+  end
 end
+

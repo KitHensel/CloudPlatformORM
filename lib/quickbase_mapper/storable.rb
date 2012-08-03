@@ -68,7 +68,7 @@ module QuickbaseMapper::Storable
 
     def format_value_for_storage(value)
       if ([Date,Time].include? value.class)
-        (value.to_f * 1000).to_i.to_s
+        (value.to_time.to_f * 1000).to_i.to_s
       else
         value
       end

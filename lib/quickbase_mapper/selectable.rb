@@ -72,7 +72,7 @@ module QuickbaseMapper::Selectable
 
         def initialize(field_id, value, operator)
             self.field_id = field_id
-            self.value = value
+            self.value = QuickbaseMapper::Value.new(value)
             self.operator = operator
         end
 

@@ -18,12 +18,18 @@ describe QuickbaseMapper::Record do
       @model.location = "denver"
     end
 
+    it "should wrap values in a Value object" do
+      @model.attributes[:name].should be_kind_of QuickbaseMapper::Value
+    end
+
     it "should return the attributes hashed by name" do
-      @model.attributes.should == {:name => "my name", :location => "denver"}
+      @model.attributes[:name].to_s.should == "my name"
+      @model.attributes[:location].to_s.should == "denver"
     end
 
     it "should return attributes hashed by id for the environment" do
-      @model.attributes_by_id.should == {9 => "my name", 12 => "denver"}
+      @model.attributes_by_id[9].to_s.should == "my name"
+      @model.attributes_by_id[12].to_s.should == "denver"
     end
   end
 
@@ -35,7 +41,7 @@ describe QuickbaseMapper::Record do
 
     it "should create a setter and getter" do
       @model.name = "my name"
-      @model.name.should == "my name"
+      @model.name.to_s.should == "my name"
     end
 
     it "should return the correct name -> value map for the environment" do
@@ -87,12 +93,12 @@ describe QuickbaseMapper::Record do
 
     it "should convert numeric strings to integers" do
       @model.number_field = "1"
-      @model.number_field.should == 1
+      @model.number_field.value.should == 1
     end
 
     it "should not touch string values" do
       @model.number_field = "abc"
-      @model.number_field.should == "abc"
+      @model.number_field.value.should == "abc"
     end
 
     it "should not touch nil values" do

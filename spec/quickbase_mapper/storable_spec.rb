@@ -44,11 +44,5 @@ describe QuickbaseMapper::Storable do
     end
   end
 
-  describe :format_value_for_stoage do
-    it "should turn dates into milliseconds since epoch" do
-      date_as_qb = (@date.to_time.to_f * 1000).to_i.to_s
-      @model.class.send(:build_csv_row, @model, [:name, :date]).should == [@name, date_as_qb]
-    end
-  end
 end
 

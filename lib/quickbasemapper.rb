@@ -14,6 +14,7 @@ require 'QuickBaseClient'
 
 require 'initializers/fixnum'
 
+require 'quickbase_mapper/value'
 require 'quickbase_mapper/connection'
 require 'quickbase_mapper/storable'
 require 'quickbase_mapper/queryable'

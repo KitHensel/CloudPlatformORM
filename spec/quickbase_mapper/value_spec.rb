@@ -23,6 +23,16 @@ describe QuickbaseMapper::Value do
       v1.should == "string"
       v1.should_not == 5
     end
+
+    it "should handle group bys properly" do
+      Struct.new("ValueTest", :value)
+      a = [
+        Struct::ValueTest.new(QuickbaseMapper::Value.new("a")),
+        Struct::ValueTest.new(QuickbaseMapper::Value.new("a"))
+      ]
+
+      a.group_by(&:value).keys.count.should == 1
+    end
   end
 
   describe :format_value do

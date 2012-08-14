@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quickbasemapper (0.0.26)
+    quickbasemapper (0.0.27)
       gmail
       gmail
       ipp_quickbase_devkit

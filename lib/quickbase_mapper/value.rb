@@ -13,6 +13,14 @@ module QuickbaseMapper
       end
     end
 
+    def eql?(other)
+      self==(other)
+    end
+
+    def hash
+      value.hash
+    end
+
     def <=>(other)
       value <=> other.value
     end

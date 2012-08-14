@@ -5,6 +5,14 @@ module QuickbaseMapper
       @original_value = value
     end
 
+    def ==(other)
+      if (other.kind_of?(Value))
+        value == other.value
+      else
+        value == other
+      end
+    end
+
     def <=>(other)
       value <=> other.value
     end

@@ -5,6 +5,26 @@ describe QuickbaseMapper::Value do
       QuickbaseMapper.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
   end
 
+  describe :quality do
+    it "should be equal to the same type of object if the internal values match" do
+      v1 = QuickbaseMapper::Value.new("string")
+      v2 = QuickbaseMapper::Value.new("string")
+      v1.should == v2
+    end
+
+    it "should by not be equal to the same type of object if the internal values do not match" do
+      v1 = QuickbaseMapper::Value.new("string")
+      v2 = QuickbaseMapper::Value.new("string2")
+      v1.should_not == v2
+    end
+
+    it "should be equal to other types of objects if the internal value is equal to the other object" do
+      v1 = QuickbaseMapper::Value.new("string")
+      v1.should == "string"
+      v1.should_not == 5
+    end
+  end
+
   describe :format_value do
     it "should turn Date objects into milliseconds since epoch" do
       date = Date.today

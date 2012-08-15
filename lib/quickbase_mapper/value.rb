@@ -1,5 +1,6 @@
 module QuickbaseMapper
   class Value
+    attr_reader :original_value
 
     def initialize(value)
       @original_value = value

@@ -8,13 +8,17 @@ module QuickbaseMapper::Selectable
             Selector.new(self).where(criterion)
         end 
 
+        def select(*field_names)
+            Selector.new(self).select(*field_names)
+        end
+
         def all
             Selector.new(self).all
         end
     end
 
     class Selector
-        attr_accessor :model, :selector
+        attr_accessor :model, :selector, :fields
 
         def initialize(model)
             self.model = model
@@ -34,6 +38,11 @@ module QuickbaseMapper::Selectable
             selection
         end
 
+        def select(*field_names)
+            self.fields = field_names.map {|name| model.field_id(name) }
+            self
+        end
+
         def where(criterion)
             selection(criterion)
         end
@@ -47,7 +56,7 @@ module QuickbaseMapper::Selectable
         end
 
         def to_a
-            model.query(build_query)
+            model.query(build_query, fields)
         end
 
         private

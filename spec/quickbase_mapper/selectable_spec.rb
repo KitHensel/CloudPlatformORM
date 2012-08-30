@@ -12,6 +12,14 @@ describe QuickbaseMapper::Selectable do
     QuickbaseMapper.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
   end
 
+  describe :select do
+    it "should convert the field names into ids and pass them to build_query" do
+      query = BasicTestModelSelectable.select(:name)
+      BasicTestModelSelectable.should_receive(:query).with('', [1])
+      query.to_a
+    end
+  end
+
   describe :build_query do
     it "should format the string correctly for the QB API" do
       query = BasicTestModelSelectable.where(:name => "test")

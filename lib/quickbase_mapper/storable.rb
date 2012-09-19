@@ -16,6 +16,11 @@ module QuickbaseMapper::Storable
       object
     end
 
+    def upload_file!(attributes)
+      object = new(attributes)
+      object.save_with_file(object)
+    end
+
     # CSV import of an array of model objects
     def save_all(models, field_names=nil)
       raise "database_id not specified" unless database_id
@@ -33,12 +38,12 @@ module QuickbaseMapper::Storable
       end
     end
 
-    def upload_file!(models, field_names=nil)
+    def save_with_file(models, field_names=nil)
       raise "database_id not specified" unless database_id
 
       connection.client.clearFieldValuePairList
       models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
-        for i in 0..chunk.length
+        for i in 0..chunk.length do
           field_id = field_id(field_names[i])
           if chunk.length == 2
             connection.client.addFieldValuePair(nil, field_id, chunk[i][0], chunk[i][1])

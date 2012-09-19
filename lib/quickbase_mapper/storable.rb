@@ -47,12 +47,13 @@ module QuickbaseMapper::Storable
       model = models.first
 
       field_names.each do |field|
-        value = model.send(field)
+        value = model.send(field).hash
         field_id = field_id(field)
 
-        Rails.logger.info value.filename
-        if value.filename
-          connection.client.addFieldValuePair(nil, field_id, value.filename, value.read)
+        Rails.logger.info value
+
+        if value.kind_of?(Array)
+          connection.client.addFieldValuePair(nil, field_id, value.first, value.[1])
         else
           connection.client.addFieldValuePair(nil, field_id, nil, value.to_s)
         end

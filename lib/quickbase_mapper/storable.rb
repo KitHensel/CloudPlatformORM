@@ -18,7 +18,7 @@ module QuickbaseMapper::Storable
 
     def upload_file!(attributes)
       object = new(attributes)
-      object.class.save_with_file([self])
+      object.class.save_with_file([object])
     end
 
     # CSV import of an array of model objects
@@ -41,6 +41,7 @@ module QuickbaseMapper::Storable
     def save_with_file(models, field_names=nil)
       raise "database_id not specified" unless database_id
 
+      field_names ||= fields.keys
       Rails.logger.info models
       Rails.logger.info field_names
 

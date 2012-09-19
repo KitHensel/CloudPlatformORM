@@ -9,6 +9,10 @@ module QuickbaseMapper::Storable
     self.class.save_all([self])
   end
 
+  def upload_file!
+    self.class.save_with_file([self])
+  end
+
   module ClassMethods
     def create!(attributes)
       object = new(attributes)
@@ -31,6 +35,23 @@ module QuickbaseMapper::Storable
         end
         store_chunk(header, csv_chunk, chunk)
       end
+    end
+
+    def upload_file(models, field_names=nil)
+      raise "database_id not specified" unless database_id
+
+      connection.client.clearFieldValuePairList
+      models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
+        for i in 0..chunk.length
+          field_id = field_id(field_names[i])
+          if chunk.length == 2
+            connection.client.addFieldValuePair(nil, field_id, chunk[i][0], chunk[i][1])
+          else
+            connection.client.addFieldValuePair(nil, field_id, nil, chunk[i])
+          end
+        end
+      end
+      connection.client.addRecord(database_id, client.fvlist)
     end
 
     private

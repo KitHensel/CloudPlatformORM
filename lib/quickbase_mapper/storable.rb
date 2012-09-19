@@ -9,10 +9,6 @@ module QuickbaseMapper::Storable
     self.class.save_all([self])
   end
 
-  def upload_file!
-    self.class.save_with_file([self])
-  end
-
   module ClassMethods
     def create!(attributes)
       object = new(attributes)
@@ -37,7 +33,7 @@ module QuickbaseMapper::Storable
       end
     end
 
-    def upload_file(models, field_names=nil)
+    def upload_file!(models, field_names=nil)
       raise "database_id not specified" unless database_id
 
       connection.client.clearFieldValuePairList

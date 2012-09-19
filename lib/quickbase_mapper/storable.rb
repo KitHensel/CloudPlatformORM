@@ -47,8 +47,11 @@ module QuickbaseMapper::Storable
       model = models.first
 
       field_names.each do |field|
-        value = model.send(field).to_a
+        value = model.send(field)
         field_id = field_id(field)
+
+        Rails.logger.info value
+        Rails.logger.info value.class
 
         if value.length == 2
           connection.client.addFieldValuePair(nil, field_id, value.first, value[1])

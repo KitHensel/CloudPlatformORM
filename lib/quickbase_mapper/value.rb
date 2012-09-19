@@ -35,7 +35,13 @@ module QuickbaseMapper
     end
 
     def to_a
-      value.split
+      if value.kind_of String
+        value.split
+      elsif value.kind_of Fixnum
+        value.to_s.split
+      else
+        value
+      end
     end
 
     private

@@ -50,6 +50,7 @@ module QuickbaseMapper::Storable
         value = model.send(field)
         field_id = field_id(field)
 
+        Rails.logger.info value.class
         if value.kind_of?(Mail::Part)
           connection.client.addFieldValuePair(nil, field_id, value.filename, value.read)
         else

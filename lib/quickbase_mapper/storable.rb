@@ -48,7 +48,7 @@ module QuickbaseMapper::Storable
         for i in 0..chunk.length
           field_id = field_id(field_names[i])
           if chunk.kind_of?(Array)
-            connection.client.addFieldValuePair(nil, field_id, chunk.first, chunk.second)
+            connection.client.addFieldValuePair(nil, field_id, chunk.first, chunk[1])
           else
             connection.client.addFieldValuePair(nil, field_id, nil, chunk)
           end

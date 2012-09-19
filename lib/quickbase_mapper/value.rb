@@ -34,16 +34,6 @@ module QuickbaseMapper
       value.to_s
     end
 
-    def to_a
-      if value.kind_of? String
-        value.split
-      elsif value.kind_of? Fixnum
-        value.to_s.split
-      else
-        value
-      end
-    end
-
     private
 
     def format_value

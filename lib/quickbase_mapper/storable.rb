@@ -16,10 +16,10 @@ module QuickbaseMapper::Storable
       object
     end
 
-    def add!(attributes)
-      object = new(attributes)
-      object.class.save_record([object])
-    end
+    # def add!(attributes)
+    #   object = new(attributes)
+    #   object.class.save_record([object])
+    # end
 
     # CSV import of an array of model objects
     def save_all(models, field_names=nil)
@@ -38,28 +38,28 @@ module QuickbaseMapper::Storable
       end
     end
 
-    def save_record(models, field_names=nil)
-      raise "database_id not specified" unless database_id
+    # def save_record(models, field_names=nil)
+    #   raise "database_id not specified" unless database_id
 
-      field_names ||= fields.keys
+    #   field_names ||= fields.keys
 
-      connection.client.clearFieldValuePairList
-      model = models.first
+    #   connection.client.clearFieldValuePairList
+    #   model = models.first
 
-      field_names.each do |field|
-        value = model.send(field).to_a
-        field_id = field_id(field)
+    #   field_names.each do |field|
+    #     value = model.send(field).to_a
+    #     field_id = field_id(field)
 
-        if value.length == 2
-          connection.client.addFieldValuePair(nil, field_id, value.first, value.second)
-        else
-          connection.client.addFieldValuePair(nil, field_id, nil, value.first)
-        end
-      end[]
-      10.attempts do
-        connection.client.addRecord(database_id, connection.client.fvlist)
-      end
-    end
+    #     if value.kind_of? Array
+    #       connection.client.addFieldValuePair(nil, field_id, value.first, value.second)
+    #     else
+    #       connection.client.addFieldValuePair(nil, field_id, nil, value)
+    #     end
+    #   end
+    #   10.attempts do
+    #     connection.client.addRecord(database_id, connection.client.fvlist)
+    #   end
+    # end
 
     private
 

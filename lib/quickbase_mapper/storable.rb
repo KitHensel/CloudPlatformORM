@@ -50,7 +50,7 @@ module QuickbaseMapper::Storable
         value = model.send(field).to_a
         field_id = field_id(field)
 
-        value = field_value.first
+        value = value.first
 
         if value.kind_of?(Array)
           connection.client.addFieldValuePair(nil, field_id, value.first, value.second)

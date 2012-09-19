@@ -53,8 +53,12 @@ module QuickbaseMapper::Storable
         Rails.logger.info value
         Rails.logger.info value.class
 
+        if value.second
+          puts "there is one value that has a second value."
+        end
+
         if value.kind_of?(Array)
-          connection.client.addFieldValuePair(nil, field_id, value.first, value[1])
+          connection.client.addFieldValuePair(nil, field_id, value.first, value.second)
         else
           connection.client.addFieldValuePair(nil, field_id, nil, value.to_s)
         end

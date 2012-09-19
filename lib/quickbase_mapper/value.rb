@@ -35,7 +35,7 @@ module QuickbaseMapper
     end
 
     def to_a
-      value.split
+      value.to_a
     end
 
     private

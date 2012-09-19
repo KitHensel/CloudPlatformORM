@@ -45,12 +45,6 @@ module QuickbaseMapper::Storable
 
       connection.client.clearFieldValuePairList
       chunk = models.first
-      chunk.each do |object|
-        Rails.logger.info object
-      end
-
-      Rails.logger.info chunk
-      Rails.logger.info object
 
       # chunk.each do |object|
       #   values = build_csv_row(object, field_names)

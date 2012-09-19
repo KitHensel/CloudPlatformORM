@@ -42,21 +42,13 @@ module QuickbaseMapper::Storable
       raise "database_id not specified" unless database_id
 
       field_names ||= fields.keys
-      Rails.logger.info models
-      Rails.logger.info field_names
-
-      # connection.client.clearFieldValuePairList
-      # models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
-      #   for i in 0..chunk.length do
-      #     field_id = field_id(field_names[i])
-      #     if chunk.length == 2
-      #       connection.client.addFieldValuePair(nil, field_id, chunk[i][0], chunk[i][1])
-      #     else
-      #       connection.client.addFieldValuePair(nil, field_id, nil, chunk[i])
-      #     end
-      #   end
-      # end
-      # connection.client.addRecord(database_id, client.fvlist)
+      
+      connection.client.clearFieldValuePairList
+      models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
+        connection.client.addFieldValuePair(nil, field_id, nil, chunk[0]) if chunk.length == 1
+        connection.client.addFieldValuePair(nil, field_id, chunk[0], chunk[1]) if chunk.length == 2
+      end
+      connection.client.addRecord(database_id, client.fvlist)
     end
 
     private

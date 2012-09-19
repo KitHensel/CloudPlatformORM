@@ -35,9 +35,9 @@ module QuickbaseMapper
     end
 
     def to_a
-      if value.kind_of String
+      if value.kind_of? String
         value.split
-      elsif value.kind_of Fixnum
+      elsif value.kind_of? Fixnum
         value.to_s.split
       else
         value

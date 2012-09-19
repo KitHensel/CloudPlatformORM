@@ -16,9 +16,9 @@ module QuickbaseMapper::Storable
       object
     end
 
-    def upload_file!(attributes)
+    def add!(attributes)
       object = new(attributes)
-      object.class.save_with_file([object])
+      object.class.save_record([object])
     end
 
     # CSV import of an array of model objects
@@ -38,7 +38,7 @@ module QuickbaseMapper::Storable
       end
     end
 
-    def save_with_file(models, field_names=nil)
+    def save_record(models, field_names=nil)
       raise "database_id not specified" unless database_id
 
       field_names ||= fields.keys
@@ -50,8 +50,8 @@ module QuickbaseMapper::Storable
         value = model.send(field)
         field_id = field_id(field)
 
-        Rails.logger.info value.class
-        if value.kind_of?(Mail::Part)
+        Rails.logger.info value.filename
+        if value.filename
           connection.client.addFieldValuePair(nil, field_id, value.filename, value.read)
         else
           connection.client.addFieldValuePair(nil, field_id, nil, value.to_s)

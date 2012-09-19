@@ -34,10 +34,6 @@ module QuickbaseMapper
       value.to_s
     end
 
-    def to_a
-      value.to_a
-    end
-
     private
 
     def format_value

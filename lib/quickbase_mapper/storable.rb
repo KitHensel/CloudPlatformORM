@@ -18,7 +18,7 @@ module QuickbaseMapper::Storable
 
     def upload_file!(attributes)
       object = new(attributes)
-      object.save_with_file(object)
+      object.class.save_with_file([self])
     end
 
     # CSV import of an array of model objects

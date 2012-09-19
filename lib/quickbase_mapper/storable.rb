@@ -45,7 +45,9 @@ module QuickbaseMapper::Storable
 
       connection.client.clearFieldValuePairList
       chunk = models.first
-      object = chunk.first
+      chunk.each do |object|
+        Rails.logger.info object
+      end
 
       Rails.logger.info chunk
       Rails.logger.info object

@@ -45,10 +45,11 @@ module QuickbaseMapper
         end
       elsif ([Date,Time].include? @original_value.class)
         (@original_value.to_time.to_f * 1000).to_i.to_s
+      elsif(@original_value.kind_of? Array)
+        @original_value = [@original_value.filename, @original_value.read]
       else
         @original_value
       end
-
     end
   end
 end

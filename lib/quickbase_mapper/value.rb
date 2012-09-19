@@ -34,6 +34,10 @@ module QuickbaseMapper
       value.to_s
     end
 
+    def to_a
+      value.split
+    end
+
     private
 
     def format_value

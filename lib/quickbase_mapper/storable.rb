@@ -47,18 +47,15 @@ module QuickbaseMapper::Storable
       model = models.first
 
       field_names.each do |field|
-        value = model.send(field)
+        field_value = model.send(field).to_a
         field_id = field_id(field)
 
-        Rails.logger.info value
-        Rails.logger.info value.class
-
-        if value.length == 2
-          connection.client.addFieldValuePair(nil, field_id, value.first, value[1])
+        if field_value.length == 2
+          connection.client.addFieldValuePair(nil, field_id, field_value.first, field_value.second)
         else
-          connection.client.addFieldValuePair(nil, field_id, nil, value.to_s)
+          connection.client.addFieldValuePair(nil, field_id, nil, field_value.first)
         end
-      end
+      end[]
       10.attempts do
         connection.client.addRecord(database_id, connection.client.fvlist)
       end

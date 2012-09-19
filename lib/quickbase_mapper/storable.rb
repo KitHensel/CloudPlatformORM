@@ -42,11 +42,17 @@ module QuickbaseMapper::Storable
       raise "database_id not specified" unless database_id
 
       field_names ||= fields.keys
-      
+
       connection.client.clearFieldValuePairList
       models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
-        connection.client.addFieldValuePair(nil, field_id, nil, chunk[0]) if chunk.length == 1
-        connection.client.addFieldValuePair(nil, field_id, chunk[0], chunk[1]) if chunk.length == 2
+        for i in 0..chunk.length
+          field_id = field_id(field_names[i])
+          if chunk.kind_of?(Array)
+            connection.client.addFieldValuePair(nil, field_id, chunk.first, chunk.second)
+          else
+            connection.client.addFieldValuePair(nil, field_id, nil, chunk)
+          end
+        end
       end
       connection.client.addRecord(database_id, client.fvlist)
     end

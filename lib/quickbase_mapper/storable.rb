@@ -51,9 +51,9 @@ module QuickbaseMapper::Storable
         field_id = field_id(field)
 
         if value.kind_of?(Mail::Part)
-          connection.client.addFieldValuePair(nil, field_id, value.first.filename, value[1].read)
+          connection.client.addFieldValuePair(nil, field_id, value.filename, value.read)
         else
-          connection.client.addFieldValuePair(nil, field_id, nil, value)
+          connection.client.addFieldValuePair(nil, field_id, nil, value.to_s)
         end
       end
       10.attempts do

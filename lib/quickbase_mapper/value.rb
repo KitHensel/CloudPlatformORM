@@ -22,6 +22,10 @@ module QuickbaseMapper
       value.hash
     end
 
+    def to_a
+      value.to_a
+    end
+
     def <=>(other)
       value <=> other.value
     end

@@ -47,7 +47,7 @@ module QuickbaseMapper::Storable
       model = models.first
 
       field_names.each do |field|
-        value = model.send(field).to_s
+        value = model.send(field)
         field_id = field_id(field)
 
         if value.kind_of?(Mail::Part)

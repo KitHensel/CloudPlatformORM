@@ -44,17 +44,11 @@ module QuickbaseMapper::Storable
       field_names ||= fields.keys
 
       connection.client.clearFieldValuePairList
-      chunk = models.first
+      model = models.first
 
-      # chunk.each do |object|
-      #   values = build_csv_row(object, field_names)
-
-      #   if object.kind_of?(Array)
-
-      #   else
-
-      #   end
-      # end
+      field_names.each do |field|
+        Rails.logger.info model.send(field).to_s
+      end
       # connection.client.addRecord(database_id, client.fvlist)
     end
 

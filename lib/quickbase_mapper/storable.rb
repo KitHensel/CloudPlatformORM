@@ -56,7 +56,9 @@ module QuickbaseMapper::Storable
           connection.client.addFieldValuePair(nil, field_id, nil, value)
         end
       end
-      connection.client.addRecord(database_id, client.fvlist)
+      10.attempts do
+        connection.client.addRecord(database_id, connection.client.fvlist)
+      end
     end
 
     private

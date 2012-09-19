@@ -47,13 +47,15 @@ module QuickbaseMapper::Storable
       model = models.first
 
       field_names.each do |field|
-        field_value = model.send(field).format_value
+        value = model.send(field).to_a
         field_id = field_id(field)
 
-        if field_value.kind_of?(Array)
-          connection.client.addFieldValuePair(nil, field_id, field_value.first, field_value.second)
+        value = field_value.first
+
+        if value.kind_of?(Array)
+          connection.client.addFieldValuePair(nil, field_id, value.first, value.second)
         else
-          connection.client.addFieldValuePair(nil, field_id, nil, field_value)
+          connection.client.addFieldValuePair(nil, field_id, nil, value)
         end
       end[]
       10.attempts do

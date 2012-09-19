@@ -53,7 +53,7 @@ module QuickbaseMapper::Storable
         Rails.logger.info value
 
         if value.kind_of?(Array)
-          connection.client.addFieldValuePair(nil, field_id, value.first, value.[1])
+          #connection.client.addFieldValuePair(nil, field_id, value.first, value[1])
         else
           connection.client.addFieldValuePair(nil, field_id, nil, value.to_s)
         end

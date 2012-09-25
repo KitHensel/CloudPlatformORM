@@ -65,6 +65,8 @@ module QuickbaseMapper::Storable
 
     def store_chunk(header, csv, objects)
       3.attempts do
+        Rails.logger.info csv
+        Rails.logger.info header
         n, m, o, rids, p = connection.client.importFromCSV(database_id, csv, header)
         rids = parse_rid_xml rids
         if rids.size == objects.size

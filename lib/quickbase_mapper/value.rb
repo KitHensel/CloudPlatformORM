@@ -30,6 +30,10 @@ module QuickbaseMapper
       @value ||= format_value
     end
 
+    def to_i
+      value.to_i
+    end
+
     def to_s
       value.to_s
     end

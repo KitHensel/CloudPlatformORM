@@ -7,7 +7,7 @@ module QuickbaseMapper::Queryable
       record_count = count(clause)
       records = []
       while records.count < record_count
-        results = client.doQuery(database_id, clause, nil, nil, clist, nil, "structured", "num-#{MAX_QUERY_SIZE}.skp-#{records.count}")
+        results = connection.doQuery(database_id, clause, nil, nil, clist, nil, "structured", "num-#{MAX_QUERY_SIZE}.skp-#{records.count}")
         records += process_query_results results
       end
 

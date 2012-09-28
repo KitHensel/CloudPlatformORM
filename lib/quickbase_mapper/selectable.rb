@@ -59,6 +59,10 @@ module QuickbaseMapper::Selectable
             model.query(build_query, fields)
         end
 
+        def count
+            model.count(build_query)
+        end
+
         private
 
         def selection(criterion=[], condition='AND')

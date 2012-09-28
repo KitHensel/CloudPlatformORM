@@ -22,6 +22,9 @@ class QuickbaseMapper::Connection
   end
   
   def method_missing(method, *args, &block)
+    p method
+    p args
+    p block
     @client.send(method, *args, &block)
   end
 end

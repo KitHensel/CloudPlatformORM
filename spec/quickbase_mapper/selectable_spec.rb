@@ -34,4 +34,11 @@ describe QuickbaseMapper::Selectable do
       query.send(:build_query).should == "{3.EX.'#{qb_time}'}"
     end
   end
+
+  describe :count do
+    it "should pass the query parameters to the model count function" do
+      BasicTestModelSelectable.should_receive(:count).with("{1.EX.'1'}")
+      BasicTestModelSelectable.where(:name => 1).count
+    end
+  end
 end

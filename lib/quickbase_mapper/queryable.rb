@@ -1,6 +1,6 @@
 module QuickbaseMapper::Queryable
   module ClassMethods
-    MAX_QUERY_SIZE = 2000
+    MAX_QUERY_SIZE = 10000
 
     def query(clause, selected_field_ids=nil)
       clist = (selected_field_ids || fields.values).join('.')

@@ -52,7 +52,6 @@ module QuickbaseMapper
       else
         @original_value
       end
-
     end
   end
 end

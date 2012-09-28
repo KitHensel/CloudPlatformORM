@@ -19,9 +19,9 @@ module QuickbaseMapper::Queryable
 
     def count(query=nil)
       if (query)
-        connection.doQueryCount(database_id, query)
+        connection.doQueryCount(database_id, query).to_i
       else
-        connection.getNumRecords(database_id)
+        connection.getNumRecords(database_id).to_i
       end
     end
 

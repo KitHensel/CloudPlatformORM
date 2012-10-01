@@ -13,8 +13,6 @@ module QuickbaseMapper::Queryable
         records += process_query_results results
       end
       puts "Loaded #{records.count}"
-      # results = connection.doQuery(database_id, clause, nil, nil, clist)
-      # process_query_results(results)
 
       records
     end

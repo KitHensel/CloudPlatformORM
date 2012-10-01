@@ -5,7 +5,18 @@ describe QuickbaseMapper::Value do
       QuickbaseMapper.stub(:connections) { {"default" => {"username" => "test", "password" => "password"} } } 
   end
 
-  describe :quality do
+  describe :blank? do
+    it "should return true if the underlying value is blank" do
+      QuickbaseMapper::Value.new("").blank?.should be_true
+      QuickbaseMapper::Value.new(nil).blank?.should be_true
+    end
+
+    it "should return false if the underlying value is not blank" do
+      QuickbaseMapper::Value.new("value").blank?.should be_false
+    end
+  end
+
+  describe :equality do
     it "should be equal to the same type of object if the internal values match" do
       v1 = QuickbaseMapper::Value.new("string")
       v2 = QuickbaseMapper::Value.new("string")

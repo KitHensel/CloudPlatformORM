@@ -30,6 +30,10 @@ module QuickbaseMapper
       @value ||= format_value
     end
 
+    def blank?
+      value ? value.blank? : true
+    end
+
     def to_i
       value.to_i
     end

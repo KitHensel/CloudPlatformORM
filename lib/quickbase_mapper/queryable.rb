@@ -6,11 +6,13 @@ module QuickbaseMapper::Queryable
       clist = (selected_field_ids || fields.values).join('.')
       record_count = count(clause)
       records = []
+      puts("Loading #{record_count} records")
       while records.count < record_count
+        puts("\tLoading #{MAX_QUERY_SIZE} records")
         results = connection.doQuery(database_id, clause, nil, nil, clist, nil, "structured", "num-#{MAX_QUERY_SIZE}.skp-#{records.count}")
         records += process_query_results results
       end
-
+      puts "Loaded #{records.count}"
       # results = connection.doQuery(database_id, clause, nil, nil, clist)
       # process_query_results(results)
 

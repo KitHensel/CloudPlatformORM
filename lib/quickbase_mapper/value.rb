@@ -44,6 +44,8 @@ module QuickbaseMapper
       if (@original_value.kind_of? String)
         if @original_value.methods.include?(:to_i) && (@original_value.to_i.to_s == @original_value)
           @original_value.to_i 
+        elsif @original_value.methods.include?(:to_f) && (@original_value =~ /^\d+\.\d+$/)
+          @original_value.to_f
         else
           @original_value
         end

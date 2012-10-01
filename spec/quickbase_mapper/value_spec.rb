@@ -50,6 +50,11 @@ describe QuickbaseMapper::Value do
       formatted.should == qb_time
     end
 
+    it "should turn string floats into floats" do
+      formatted = QuickbaseMapper::Value.new("1.000").send :format_value
+      formatted.should be_kind_of Float
+    end
+
     it "should not alter String objects" do
       s = "abc"
       formatted = QuickbaseMapper::Value.new(s).send :format_value

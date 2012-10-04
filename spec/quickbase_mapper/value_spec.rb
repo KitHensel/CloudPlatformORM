@@ -71,6 +71,17 @@ describe QuickbaseMapper::Value do
       formatted = QuickbaseMapper::Value.new(s).send :format_value
       formatted.should == s
     end
+
+    it "should ensure equality when converting back and forth to integers" do
+      s = "0000"
+      formatted = QuickbaseMapper::Value.new(s).send :format_value
+      formatted.should == s
+
+      s = "0"
+      formatted = QuickbaseMapper::Value.new(s).send :format_value
+      formatted.should == 0
+    end
+
   end
 
 end

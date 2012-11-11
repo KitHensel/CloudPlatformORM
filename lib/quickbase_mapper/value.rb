@@ -27,11 +27,13 @@ module QuickbaseMapper
     end
 
     def < (other)
-      value < other.value
+      other_value = other.kind_of?(QuickbaseMapper::Value) ? other.value : other
+      value < other_value
     end
 
     def > (other)
-      value > other.value
+      other_value = other.kind_of?(QuickbaseMapper::Value) ? other.value : other
+      value > other_value
     end
 
     def value

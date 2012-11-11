@@ -17,11 +17,17 @@ describe QuickbaseMapper::Value do
   end
 
   describe "comparison" do
-    it "should support GT and LT" do
+    it "should support GT and LT against another Value" do
       v1 = QuickbaseMapper::Value.new(Date.today)
       v2 = QuickbaseMapper::Value.new(Date.today - 1000000)
       v1.should > v2
       v2.should < v1
+    end
+
+    it "should support GT and LT against another non Value" do
+      v1 = QuickbaseMapper::Value.new(1000)
+      v1.should > 0
+      v1.should < 2000
     end
   end
 

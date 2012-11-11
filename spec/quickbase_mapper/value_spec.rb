@@ -16,6 +16,15 @@ describe QuickbaseMapper::Value do
     end
   end
 
+  describe "comparison" do
+    it "should support GT and LT" do
+      v1 = QuickbaseMapper::Value.new(Date.today)
+      v2 = QuickbaseMapper::Value.new(Date.today - 1000000)
+      v1.should > v2
+      v2.should < v1
+    end
+  end
+
   describe :equality do
     it "should be equal to the same type of object if the internal values match" do
       v1 = QuickbaseMapper::Value.new("string")

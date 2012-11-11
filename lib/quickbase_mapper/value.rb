@@ -26,6 +26,14 @@ module QuickbaseMapper
       value <=> other.value
     end
 
+    def < (other)
+      value < other.value
+    end
+
+    def > (other)
+      value > other.value
+    end
+
     def value
       @value ||= format_value
     end

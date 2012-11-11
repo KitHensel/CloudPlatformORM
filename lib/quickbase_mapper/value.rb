@@ -26,6 +26,14 @@ module QuickbaseMapper
       value <=> other.value
     end
 
+    def <= (other)
+      self.<(other) || self.==(other)
+    end
+
+    def >= (other)
+      self.>(other) || self.==(other)
+    end
+
     def < (other)
       other_value = other.kind_of?(QuickbaseMapper::Value) ? other.value : other
       value < other_value

@@ -26,8 +26,30 @@ module QuickbaseMapper
       value <=> other.value
     end
 
+    def <= (other)
+      self.<(other) || self.==(other)
+    end
+
+    def >= (other)
+      self.>(other) || self.==(other)
+    end
+
+    def < (other)
+      other_value = other.kind_of?(QuickbaseMapper::Value) ? other.value : other
+      value < other_value
+    end
+
+    def > (other)
+      other_value = other.kind_of?(QuickbaseMapper::Value) ? other.value : other
+      value > other_value
+    end
+
     def value
       @value ||= format_value
+    end
+
+    def blank?
+      value ? value.blank? : true
     end
 
     def to_i
@@ -44,6 +66,8 @@ module QuickbaseMapper
       if (@original_value.kind_of? String)
         if @original_value.methods.include?(:to_i) && (@original_value.to_i.to_s == @original_value)
           @original_value.to_i 
+        elsif @original_value.methods.include?(:to_f) && (@original_value =~ /^\d+\.\d+$/)
+          @original_value.to_f
         else
           @original_value
         end

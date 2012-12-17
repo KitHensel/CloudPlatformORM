@@ -1,18 +1,18 @@
 module QuickbaseMapper::Queryable
   module ClassMethods
-    MAX_QUERY_SIZE = 10000
+    MAX_QUERY_SIZE = 2000
 
     def query(clause, selected_field_ids=nil)
       clist = (selected_field_ids || fields.values).join('.')
       record_count = count(clause)
       records = []
+      puts("Loading #{record_count} records")
       while records.count < record_count
+        puts("\tLoading #{MAX_QUERY_SIZE} records")
         results = connection.doQuery(database_id, clause, nil, nil, clist, nil, "structured", "num-#{MAX_QUERY_SIZE}.skp-#{records.count}")
         records += process_query_results results
       end
-
-      # results = connection.doQuery(database_id, clause, nil, nil, clist)
-      # process_query_results(results)
+      puts "Loaded #{records.count}"
 
       records
     end

@@ -12,6 +12,7 @@ class QuickbaseMapper::Connection
         "password" => @config["password"], 
         "org" => @config["domain"], 
         "stopOnError" => true)
+    @client.authenticate(@config["username"], @config["password"], 9000)
   end
 
   private

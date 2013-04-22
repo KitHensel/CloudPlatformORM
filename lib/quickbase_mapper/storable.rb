@@ -28,6 +28,9 @@ module QuickbaseMapper::Storable
       field_names ||= fields.keys
       header = build_csv_header(field_names)
 
+      puts header
+      Rails.logger.info header
+
       models.each_slice(MAX_RECORDS_PER_WRITE) do |chunk|
         csv_chunk = CSV.generate do |csv|
           chunk.each do |object| 

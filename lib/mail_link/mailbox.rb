@@ -13,7 +13,7 @@ module MailLink
       gmail = ""
       emails = []
 
-      3.attempts(10) do
+      3.attempts do
         gmail = Gmail.connect!(username, password)
         emails = gmail.inbox.find(:unread)
       end

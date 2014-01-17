@@ -16,6 +16,14 @@ module QuickbaseMapper::Storable
       object
     end
 
+    def createmany!(attributes)
+      records = attributes.map do |record|
+        new(record)
+      end
+
+      save_all(records)
+    end
+
     # def add!(attributes)
     #   object = new(attributes)
     #   object.class.save_record([object])

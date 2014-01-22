@@ -20,8 +20,6 @@ module MailLink
     end
 
     module ClassMethods
-      @queue = :mail_monkey2
-
       def username(email=nil)
         @email = email if email
         @email
@@ -32,7 +30,7 @@ module MailLink
         @password
       end
 
-      def self.perform
+      def perform
         mailbox = Mailbox.new(username, password)
         mailbox.each_unread_message do |message|
           self.new(message).process

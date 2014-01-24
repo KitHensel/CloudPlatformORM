@@ -10,10 +10,15 @@ module QuickbaseMapper::Storable
   end
 
   module ClassMethods
+
     def create!(attributes)
       object = new(attributes)
       object.save!
       object
+    end
+
+    def purge!(criteria)
+      connection.client.purgeRecords(database_id, criteria)
     end
 
     def createmany!(attributes)

@@ -1,5 +1,6 @@
 module MailLink
   module Processor
+  
     attr_reader :message
 
     def self.descendants
@@ -29,7 +30,7 @@ module MailLink
         @password
       end
 
-      def run
+      def perform
         mailbox = Mailbox.new(username, password)
         mailbox.each_unread_message do |message|
           self.new(message).process

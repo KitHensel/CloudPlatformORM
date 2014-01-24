@@ -4,4 +4,4 @@ gemspec
 
 gem 'rake'
 gem 'rspec'
-gem 'activesupport'
+gem 'activesupport', "~> 3.2.9"

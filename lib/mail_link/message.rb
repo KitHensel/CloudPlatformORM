@@ -1,6 +1,8 @@
 module MailLink
   class Message
-    attr_accessor :sent, :received, :subject, :text_body, :to_recipients, :from, :cc_recipients, :html_body, :sender, :attachments
+    attr_accessor :sent, :received, :subject, :text_body
+    attr_accessor :to_recipients, :from, :cc_recipients 
+    attr_accessor :html_body, :sender, :attachments
     
     def initialize(params={})
       params.each {|key,value| self.send("#{key}=", value) }

@@ -49,30 +49,20 @@ module MailLink
 
       message.subject = gmail_message.subject if gmail_message.subject
 
-
       if (gmail_message.text_part)
-        Rails.logger.info "TEXT PART: #{gmail_message.text_part.decoded}"
         text = gmail_message.text_part.decoded
-        Rails.logger.info "HEADER: #{gmail_message.text_part.header}"
         txt_headers = gmail_message.text_part.header
       else
-        Rails.logger.info "BODY: #{gmail_message.body.decoded}"
-        text = gmail_message.body
-        Rails.logger.info "HEADER: #{gmail_message.header}"
-        txt_headers = gmail_message.header
+        text = gmail_message.body.decoded
       end
 
       if text
         message.text_body = text
 
-        if txt_headers
-          Rails.logger.info txt_headers
+        if (txt_headers)
           headers = Hash[txt_headers.to_s.split("\r\n").map { |x| x.split("=").map { |y| y.lstrip.rstrip } }]
           Rails.logger.info headers
-
-          if headers.has_key?("charset") && headers["charset"] != "windows-1252" && headers["charset"] != "us-ascii"
-            message.text_body = message.text_body.force_encoding(headers["charset"].gsub(";", "")).encode("UTF-8")
-          end
+          message.text_body = message.text_body.force_encoding(headers["charset"].gsub(";", "")).encode("UTF-8") if (headers.has_key?("charset")) && headers["charset"] != "windows-1252"
         end
       end
 
@@ -85,9 +75,7 @@ module MailLink
         html_body = gmail_message.html_part.body.to_s
         if (html.header)
           headers = Hash[html.header.to_s.split("\r\n").map { |x| x.split("=").map { |y| y.lstrip.rstrip } }]
-          if headers.has_key?("charset") && headers["charset"] != "windows-1252" && headers["charset"] != "us-ascii"
-            message.html_body = html_body.force_encoding(headers["charset"]).encode("UTF-8")
-          end
+          message.html_body = html_body.force_encoding(headers["charset"]).encode("UTF-8") if (headers.has_key?("charset"))
         end
       end
 

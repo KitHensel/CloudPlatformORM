@@ -62,13 +62,8 @@ module MailLink
 
         if (txt_headers)
           headers = Hash[txt_headers.to_s.split("\r\n").map { |x| x.split("=").map { |y| y.lstrip.rstrip } }]
-          
           Rails.logger.info headers
-
-          if headers.has_key?("charset") && !["windows-1252", "us-ascii"].include?(headers["charset"])
-            headers = headers.gsub(";", "");
-            message.text_body = message.text_body.force_encoding(headers["charset"]).encode("UTF-8")
-          end
+          message.text_body = message.text_body.force_encoding(headers["charset"].gsub(";", "")).encode("UTF-8") if (headers.has_key?("charset")) && (headers["charset"] != "windows-1252" && headers["charset"] != "us-ascii")
         end
       end
 
@@ -81,11 +76,7 @@ module MailLink
         html_body = gmail_message.html_part.body.to_s
         if (html.header)
           headers = Hash[html.header.to_s.split("\r\n").map { |x| x.split("=").map { |y| y.lstrip.rstrip } }]
-
-          if headers.has_key?("charset") && !["windows-1252", "us-ascii"].include?(headers["charset"]
-            headers = headers.gsub(";", "");
-            message.html_body = html_body.force_encoding(headers["charset"]).encode("UTF-8")
-          end
+          message.html_body = html_body.force_encoding(headers["charset"]).encode("UTF-8") if (headers.has_key?("charset")) && (headers["charset"] != "windows-1252" && headers["charset"] != "us-ascii")
         end
       end
 

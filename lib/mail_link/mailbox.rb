@@ -49,23 +49,21 @@ module MailLink
 
       message.subject = gmail_message.subject if gmail_message.subject
 
+      Rails.logger.info gmail_message
+      
       if (gmail_message.text_part)
         text = gmail_message.text_part.decoded
-        txt_headers = gmail_message.text_part.header.to_s.strip
+        txt_headers = gmail_message.text_part.header
       else
         text = gmail_message.body.decoded
-        txt_headers = gmail_message.header.to_s.strip
-      end
-
-      if txt_headers == ""
-        txt_headers = { "Content-Type: text/plain;"=> nil, "charset"=> "UTF-8" }
+        txt_headers = gmail_message.header
       end
 
       if text
         message.text_body = text
 
         if (txt_headers)
-          headers = Hash[txt_headers.split("\r\n").map { |x| x.split("=").map { |y| y.lstrip.rstrip } }]
+          headers = Hash[txt_headers.to_s.split("\r\n").map { |x| x.split("=").map { |y| y.lstrip.rstrip } }]
           Rails.logger.info headers
           message.text_body = message.text_body.force_encoding(headers["charset"].gsub(";", "")).encode("UTF-8") if (headers.has_key?("charset")) && headers["charset"] != "windows-1252"
         end

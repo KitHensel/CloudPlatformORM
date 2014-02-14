@@ -49,11 +49,16 @@ module MailLink
 
       message.subject = gmail_message.subject if gmail_message.subject
 
+
       if (gmail_message.text_part)
+        Rails.logger.info "TEXT PART: #{gmail_message.text_part.decoded}"
         text = gmail_message.text_part.decoded
+        Rails.logger.info "HEADER: #{gmail_message.text_part.header}"
         txt_headers = gmail_message.text_part.header
       else
+        Rails.logger.info "BODY: #{gmail_message.body.decoded}"
         text = gmail_message.body.decoded
+        Rails.logger.info "HEADER: #{gmail_message.header}"
         txt_headers = gmail_message.header
       end
 

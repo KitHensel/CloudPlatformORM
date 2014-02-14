@@ -62,8 +62,13 @@ module MailLink
 
         if (txt_headers)
           headers = Hash[txt_headers.to_s.split("\r\n").map { |x| x.split("=").map { |y| y.lstrip.rstrip } }]
+          
           Rails.logger.info headers
-          message.text_body = message.text_body.force_encoding(headers["charset"].gsub(";", "")).encode("UTF-8") if (headers.has_key?("charset")) && headers["charset"] != "windows-1252"
+
+          if headers.has_key?("charset") && !["windows-1252", "us-ascii"].include?(headers["charset"])
+            headers = headers.gsub(";", "");
+            message.text_body = message.text_body.force_encoding(headers).encode("UTF-8")
+          end
         end
       end
 

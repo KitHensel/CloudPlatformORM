@@ -13,7 +13,6 @@ module QuickbaseMapper::Storable
 
     def create!(attributes)
       object = new(attributes)
-      object.save!
       object
     end
 
@@ -45,13 +44,6 @@ module QuickbaseMapper::Storable
 
         Rails.logger.info "Headers: #{header}"
         Rails.logger.info "CSV Chunk: #{csv_chunk}"
-
-        if object.send("id").to_s == ""
-          header[0] = ""
-          header[1] = ""
-          csv_chunk[0] = ""
-          csv_chunk[1] = ""
-        end
 
         store_chunk(header, csv_chunk, chunk)
       end

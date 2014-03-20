@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name         = 'quickbasemapper'
-  s.version      = '1.1.0'
+  s.version      = '1.1.1'
   s.date         = '2012-07-03'
   s.summary      = "AR-like library for interacting with QuickBase"
   s.description  = "AR-like library for interacting with QuickBase"

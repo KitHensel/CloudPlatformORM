@@ -77,7 +77,7 @@ module QuickbaseMapper::Storable
 
     def build_csv_row(model, field_names)
       field_names.map do |field_name|
-        value = model.send(field_name).to_s
+        value = "\"#{model.send(field_name).to_s}\""
       end
     end
   end

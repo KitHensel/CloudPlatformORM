@@ -45,6 +45,14 @@ module QuickbaseMapper::Storable
 
         Rails.logger.info "Headers: #{header}"
         Rails.logger.info "CSV Chunk: #{csv_chunk}"
+
+        if object.send("id").to_s == ""
+          header[0] = ""
+          header[1] = ""
+          csv_chunk[0] = ""
+          csv_chunk[1] = ""
+        end
+
         store_chunk(header, csv_chunk, chunk)
       end
     end
@@ -53,6 +61,7 @@ module QuickbaseMapper::Storable
 
     def store_chunk(header, csv, objects)
       3.attempts do
+
         n, m, o, rids, p = connection.client.importFromCSV(database_id, csv, header)
         rids = parse_rid_xml rids
         if rids.size == objects.size
@@ -77,7 +86,7 @@ module QuickbaseMapper::Storable
 
     def build_csv_row(model, field_names)
       field_names.map do |field_name|
-        value = "\"#{model.send(field_name).to_s}\""
+        value = model.send(field_name).to_s
       end
     end
   end

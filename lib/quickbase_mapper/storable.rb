@@ -43,7 +43,7 @@ module QuickbaseMapper::Storable
           end
         end
 
-        Rails.logger.info "Headers: #{headers}"
+        Rails.logger.info "Headers: #{header}"
         Rails.logger.info "CSV Chunk: #{csv_chunk}"
         store_chunk(header, csv_chunk, chunk)
       end

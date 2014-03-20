@@ -48,6 +48,8 @@ module QuickbaseMapper::Storable
         csv_chunk = CSV.generate do |csv|
           chunk.each do |object| 
             csv << build_csv_row(object, field_names) 
+            Rails.logger.info field_names
+            Rails.logger.info build_csv_row(object, field_names)
           end
         end
         store_chunk(header, csv_chunk, chunk)
